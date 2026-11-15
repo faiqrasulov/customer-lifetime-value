@@ -5,6 +5,12 @@ Predicting how often each customer will buy and how much they will spend, with p
 split of real e-commerce transactions (541,909 invoice lines) and turned into segment-level
 actions.
 
+**Read this first:** on this dataset the churn part of BG/NBD is not identified. In the
+calibration-period fits the estimated dropout probability is zero and P(alive) is 1.00 for every
+customer, so the purchase forecast is the NBD formula: a customer's past purchase rate, shrunk
+towards the average. That is why the model ties the past-rate baseline below. The sections on
+P(alive) show the method, not a finding about these customers.
+
 [![CI](https://github.com/faiqrasulov/customer-lifetime-value/actions/workflows/ci.yml/badge.svg)](https://github.com/faiqrasulov/customer-lifetime-value/actions/workflows/ci.yml)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
