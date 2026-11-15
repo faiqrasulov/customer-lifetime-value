@@ -1,8 +1,9 @@
 """RFM scoring: quintile scores (1-5) and the usual named segments from the R and F scores.
 
 R = days since the last purchase (fewer is better), F = number of purchase days, M = total
-spend. Scores are percentile ranks cut into fifths, with ties sharing a score (about a third of
-customers bought on a single day, so they all get F = 1).
+spend. Scores are percentile ranks cut into fifths. Tied customers share the score of the lowest
+rank in their tie: 36-42% of customers bought on a single day, and all of them get F = 1 (with
+average ranks they would land on F = 2 in one period and F = 1 in another).
 """
 
 from __future__ import annotations
@@ -30,11 +31,11 @@ SEGMENTS: tuple[str, ...] = tuple(dict.fromkeys(name for _, name in SEGMENT_RULE
 
 
 def quintile_score(values: pd.Series | np.ndarray, higher_is_better: bool = True) -> np.ndarray:
-    """Score 1-5 from the average percentile rank (ties share a score)."""
+    """Score 1-5 from the percentile rank; ties share the lowest rank of their block."""
     s = pd.Series(np.asarray(values, dtype=np.float64))
     if not higher_is_better:
         s = -s
-    pct = s.rank(method="average", pct=True).to_numpy()
+    pct = s.rank(method="min", pct=True).to_numpy()
     return np.clip(np.ceil(pct * 5.0), 1, 5).astype(np.int64)
 
 

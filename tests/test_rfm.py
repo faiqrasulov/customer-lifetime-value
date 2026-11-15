@@ -10,7 +10,7 @@ def test_quintile_scores_and_ties():
     assert quintile_score(np.arange(10), higher_is_better=False).tolist() == [
         5, 5, 4, 4, 3, 3, 2, 2, 1, 1]
     tied = quintile_score([1, 1, 1, 1, 1, 1, 2, 3, 4, 5])
-    assert len(set(tied[:6])) == 1  # ties share a score
+    assert set(tied[:6]) == {1}  # ties share the lowest score of their block
 
 
 @pytest.mark.parametrize("r, f, name", [(5, 5, "Champions"), (1, 1, "Hibernating"),
