@@ -200,6 +200,8 @@ def validate(daily: pd.DataFrame, split: Split, assumptions: ValueAssumptions,
             "calibration_expected": float(tr.loc[~hold, "expected"].sum()),
             "holdout_actual": float(tr.loc[hold, "actual"].sum()),
             "holdout_expected": float(tr.loc[hold, "expected"].sum()),
+            "holdout_peak_week_actual": float(tr.loc[hold, "actual"].max()),
+            "holdout_expected_per_week": float(tr.loc[hold, "expected"].mean()),
         }
     return result
 
@@ -222,7 +224,7 @@ def business_view(daily: pd.DataFrame, assumptions: ValueAssumptions) -> dict:
         expected_spend=("expected_spend", "mean"),
         clv_12m_mean=("clv", "mean"),
         clv_12m_total=("clv", "sum"),
-        spend_last_12m_mean=("total_spend", "mean"),
+        past_spend_mean=("total_spend", "mean"),
     ).reindex([s for s in SEGMENTS if s in set(scores["segment"])])
     by_seg["customer_share"] = by_seg["customers"] / len(scores)
     by_seg["clv_share"] = by_seg["clv_12m_total"] / total_clv
@@ -244,7 +246,7 @@ def business_view(daily: pd.DataFrame, assumptions: ValueAssumptions) -> dict:
             "expected_spend": float(val["expected_spend"][mask].mean()),
             "p_alive_mean": float(val["p_alive"][mask].mean()),
             "one_time_buyer_share": float((x[mask] == 0).mean()),
-            "spend_last_12m_share": float(scores["total_spend"].to_numpy()[mask].sum()
+            "past_spend_share": float(scores["total_spend"].to_numpy()[mask].sum()
                                           / scores["total_spend"].sum()),
         })
 
@@ -344,6 +346,9 @@ def run(data_home: str | Path = "data", out: str | Path = "reports",
             "customers_uk": int(daily["customer"].nunique()),
             "purchase_days_uk": int(len(daily)),
             "revenue_uk": float(clean["Revenue"].sum()),
+            "largest_clean_line_gbp": float(clean["Revenue"].max()),
+            "top5_customer_spend_gbp": sorted(
+                daily.groupby("customer")["spend"].sum().nlargest(5).round(0).tolist()),
             "customers_all_countries": int(daily_all["customer"].nunique()),
         },
         "assumptions": {**asdict(assumptions),

@@ -26,4 +26,4 @@ def test_pipeline_end_to_end_on_synthetic_transactions(tmp_path):
     assert 0.1 <= main["top_decile_revenue_capture"]["bgnbd_gg_clv"] <= 1.0
     business = metrics["full_data_model"]
     assert sum(t["customers"] for t in business["value_tiers"]) == business["n_customers"]
-    assert abs(sum(s["clv_share"] for s in business["segments"]) - 1.0) < 1e-6
+    assert abs(sum(s["clv_share"] for s in business["segments"]) - 1.0) < 1e-4  # 6-dp rounding

@@ -1,0 +1,1424 @@
+{
+  "data": {
+    "source": "UCI Online Retail (id 352), Chen, Sain & Guo (2012), CC BY 4.0",
+    "period": [
+      "2010-12-01",
+      "2011-12-09"
+    ],
+    "cleaning_steps": [
+      {
+        "step": "raw",
+        "rows_before": 541909,
+        "removed": 0,
+        "rows_after": 541909,
+        "note": "invoice lines in the source file"
+      },
+      {
+        "step": "missing_customer",
+        "rows_before": 541909,
+        "removed": 135080,
+        "rows_after": 406829,
+        "note": "no CustomerID"
+      },
+      {
+        "step": "cancellations",
+        "rows_before": 406829,
+        "removed": 8905,
+        "rows_after": 397924,
+        "note": "invoices starting with 'C'; each line netted against the latest earlier purchase of the same customer and StockCode: 2657 full returns, 4814 partial, 1434 unmatched (bought before Dec 2010 or a different quantity)"
+      },
+      {
+        "step": "fully_returned",
+        "rows_before": 397924,
+        "removed": 2657,
+        "rows_after": 395267,
+        "note": "purchase lines whose whole quantity was cancelled later (4814 more lines keep their remaining quantity)"
+      },
+      {
+        "step": "non_positive",
+        "rows_before": 395267,
+        "removed": 40,
+        "rows_after": 395227,
+        "note": "quantity <= 0 or unit price <= 0"
+      },
+      {
+        "step": "non_product",
+        "rows_before": 395227,
+        "removed": 1496,
+        "rows_after": 393731,
+        "note": "non-merchandise StockCodes: BANK CHARGES, C2, DOT, M, PADS, POST"
+      },
+      {
+        "step": "extreme_lines",
+        "rows_before": 393731,
+        "removed": 0,
+        "rows_after": 393731,
+        "note": "lines above 10,000 units or GBP 10,000"
+      },
+      {
+        "step": "country",
+        "rows_before": 393731,
+        "removed": 41875,
+        "rows_after": 351856,
+        "note": "keep United Kingdom only"
+      }
+    ],
+    "cleaning_all_countries_last_step": {
+      "step": "extreme_lines",
+      "rows_before": 393731,
+      "removed": 0,
+      "rows_after": 393731,
+      "note": "lines above 10,000 units or GBP 10,000"
+    },
+    "clean_lines_uk": 351856,
+    "customers_uk": 3909,
+    "purchase_days_uk": 14981,
+    "revenue_uk": 6808826.93,
+    "largest_clean_line_gbp": 7144.72,
+    "top5_customer_spend_gbp": [
+      63067.0,
+      65920.0,
+      88293.0,
+      189736.0,
+      259657.0
+    ],
+    "customers_all_countries": 4324
+  },
+  "assumptions": {
+    "months": 12,
+    "margin": 0.25,
+    "annual_discount_rate": 0.1,
+    "monthly_discount_rate": 0.007974,
+    "time_unit": "week",
+    "transaction": "customer purchase day"
+  },
+  "validation": {
+    "main": {
+      "split": {
+        "name": "main",
+        "calibration_end": "2011-09-10",
+        "holdout_end": "2011-12-10",
+        "note": "first ~9.3 months calibrate; the last 13 weeks (Sep 10 - Dec 9, 2011) are held out"
+      },
+      "calibration_weeks": 40.428571,
+      "holdout_weeks": 13.0,
+      "n_customers": 3028,
+      "n_repeat_customers": 1751,
+      "share_active_in_holdout": 0.569022,
+      "bgnbd": {
+        "params": {
+          "r": {
+            "estimate": 0.717229,
+            "se": 0.029534,
+            "ci95_low": 0.661617,
+            "ci95_high": 0.777514
+          },
+          "alpha": {
+            "estimate": 9.457787,
+            "se": 0.448177,
+            "ci95_low": 8.618934,
+            "ci95_high": 10.378282
+          },
+          "a": {
+            "estimate": 1.7e-05,
+            "se": 0.000285,
+            "ci95_low": 0.0,
+            "ci95_high": 1666100456.838625
+          },
+          "b": {
+            "estimate": 1029.155227,
+            "se": 11306.103027,
+            "ci95_low": 0.0,
+            "ci95_high": 2310036045301.513
+          }
+        },
+        "loglik": -20548.866908,
+        "converged": true,
+        "n_customers": 3028,
+        "mean_dropout_probability": 0.0,
+        "no_dropout_model": {
+          "params": {
+            "r": {
+              "estimate": 0.717229,
+              "se": 0.029534,
+              "ci95_low": 0.661617,
+              "ci95_high": 0.777515
+            },
+            "alpha": {
+              "estimate": 9.457787,
+              "se": 0.448177,
+              "ci95_low": 8.618935,
+              "ci95_high": 10.378282
+            }
+          },
+          "loglik": -20548.866894,
+          "loglik_gain_from_dropout": -1.5e-05
+        }
+      },
+      "gamma_gamma": {
+        "params": {
+          "p": {
+            "estimate": 2.402237,
+            "se": 0.162604,
+            "ci95_low": 2.103775,
+            "ci95_high": 2.743042
+          },
+          "q": {
+            "estimate": 3.660954,
+            "se": 0.191228,
+            "ci95_low": 3.304701,
+            "ci95_high": 4.055611
+          },
+          "gamma": {
+            "estimate": 418.587544,
+            "se": 47.078966,
+            "ci95_low": 335.776887,
+            "ci95_high": 521.821301
+          }
+        },
+        "loglik": -11801.547343,
+        "converged": true,
+        "n_repeat_customers": 1751,
+        "population_mean_spend": 377.889496,
+        "observed_mean_spend": 382.692465
+      },
+      "frequency_spend_correlation": {
+        "pearson": 0.076464,
+        "spearman": 0.185325,
+        "n": 1751
+      },
+      "holdout_transactions": {
+        "bgnbd": {
+          "mae": 0.930874,
+          "rmse": 1.443789,
+          "pearson": 0.775085,
+          "spearman": 0.488677,
+          "total_actual": 3973.0,
+          "total_predicted": 2985.158453,
+          "total_error_pct": -24.86387
+        },
+        "historical_rate": {
+          "mae": 0.902823,
+          "rmse": 1.448802,
+          "pearson": 0.751445,
+          "spearman": 0.495242,
+          "total_actual": 3973.0,
+          "total_predicted": 2814.092395,
+          "total_error_pct": -29.169585
+        },
+        "rfm_cell_mean": {
+          "mae": 1.024028,
+          "rmse": 1.801921,
+          "pearson": 0.536152,
+          "spearman": 0.490929,
+          "total_actual": 3973.0,
+          "total_predicted": 3264.495443,
+          "total_error_pct": -17.832987
+        }
+      },
+      "holdout_revenue": {
+        "bgnbd_gg": {
+          "mae": 533.238576,
+          "rmse": 2758.792288,
+          "pearson": 0.813484,
+          "spearman": 0.504253,
+          "total_actual": 2138981.48,
+          "total_predicted": 1247152.629416,
+          "total_error_pct": -41.694089
+        },
+        "historical_rate": {
+          "mae": 504.306484,
+          "rmse": 2528.113069,
+          "pearson": 0.821126,
+          "spearman": 0.516555,
+          "total_actual": 2138981.48,
+          "total_predicted": 1228933.860829,
+          "total_error_pct": -42.545839
+        },
+        "rfm_cell_mean": {
+          "mae": 648.074596,
+          "rmse": 3395.83005,
+          "pearson": 0.267999,
+          "spearman": 0.51004,
+          "total_actual": 2138981.48,
+          "total_predicted": 1557464.90673,
+          "total_error_pct": -27.186611
+        }
+      },
+      "holdout_spend": {
+        "n_customers": 1241,
+        "gamma_gamma": {
+          "mae": 186.383382,
+          "rmse": 397.968174,
+          "pearson": 0.837283,
+          "spearman": 0.674553,
+          "total_actual": 592719.659237,
+          "total_predicted": 498246.896499,
+          "total_error_pct": -15.938861
+        },
+        "own_past_mean": {
+          "mae": 191.96769,
+          "rmse": 402.977949,
+          "pearson": 0.789346,
+          "spearman": 0.681232,
+          "total_actual": 592719.659237,
+          "total_predicted": 495916.935233,
+          "total_error_pct": -16.331958
+        }
+      },
+      "top_decile_revenue_capture": {
+        "bgnbd_gg_clv": 0.532625,
+        "rfm_score": 0.460865,
+        "past_spend": 0.534798,
+        "oracle": 0.646933
+      },
+      "top_quintile_revenue_capture": {
+        "bgnbd_gg_clv": 0.67295,
+        "rfm_score": 0.629288,
+        "past_spend": 0.653559,
+        "oracle": 0.800916
+      },
+      "frequency_buckets": [
+        {
+          "frequency": "0",
+          "n": 1277,
+          "actual": 0.584965,
+          "bgnbd": 0.37508,
+          "historical_rate": 0.0
+        },
+        {
+          "frequency": "1",
+          "n": 615,
+          "actual": 0.936585,
+          "bgnbd": 0.706823,
+          "historical_rate": 0.703843
+        },
+        {
+          "frequency": "2",
+          "n": 378,
+          "actual": 1.15873,
+          "bgnbd": 0.978179,
+          "historical_rate": 1.064706
+        },
+        {
+          "frequency": "3",
+          "n": 216,
+          "actual": 1.509259,
+          "bgnbd": 1.219725,
+          "historical_rate": 1.331636
+        },
+        {
+          "frequency": "4",
+          "n": 130,
+          "actual": 1.961538,
+          "bgnbd": 1.509879,
+          "historical_rate": 1.705631
+        },
+        {
+          "frequency": "5",
+          "n": 90,
+          "actual": 1.944444,
+          "bgnbd": 1.725998,
+          "historical_rate": 1.972004
+        },
+        {
+          "frequency": "6",
+          "n": 73,
+          "actual": 2.780822,
+          "bgnbd": 2.039659,
+          "historical_rate": 2.37052
+        },
+        {
+          "frequency": "7+",
+          "n": 249,
+          "actual": 5.032129,
+          "bgnbd": 3.766079,
+          "historical_rate": 4.49348
+        }
+      ],
+      "p_alive": {
+        "mean": 1.0,
+        "min": 0.999995,
+        "p01_repeat_buyers": 1.0,
+        "n_below_0_9": 0,
+        "n_below_0_5": 0
+      },
+      "rfm_segments": [
+        {
+          "segment": "Hibernating",
+          "customers": 857,
+          "share_active_in_holdout": 0.352392,
+          "actual_purchases": 0.507585,
+          "predicted_purchases": 0.265759,
+          "actual_revenue": 192.119638,
+          "predicted_revenue": 100.427645
+        },
+        {
+          "segment": "At risk",
+          "customers": 338,
+          "share_active_in_holdout": 0.526627,
+          "actual_purchases": 0.869822,
+          "predicted_purchases": 0.659543,
+          "actual_revenue": 352.475473,
+          "predicted_revenue": 240.806861
+        },
+        {
+          "segment": "Can't lose them",
+          "customers": 19,
+          "share_active_in_holdout": 0.526316,
+          "actual_purchases": 1.473684,
+          "predicted_purchases": 1.480497,
+          "actual_revenue": 711.348421,
+          "predicted_revenue": 517.894036
+        },
+        {
+          "segment": "About to sleep",
+          "customers": 203,
+          "share_active_in_holdout": 0.423645,
+          "actual_purchases": 0.768473,
+          "predicted_purchases": 0.458048,
+          "actual_revenue": 249.139655,
+          "predicted_revenue": 173.091662
+        },
+        {
+          "segment": "Need attention",
+          "customers": 175,
+          "share_active_in_holdout": 0.514286,
+          "actual_purchases": 0.794286,
+          "predicted_purchases": 0.67372,
+          "actual_revenue": 277.522571,
+          "predicted_revenue": 222.424692
+        },
+        {
+          "segment": "Loyal customers",
+          "customers": 598,
+          "share_active_in_holdout": 0.797659,
+          "actual_purchases": 1.829431,
+          "predicted_purchases": 1.455117,
+          "actual_revenue": 952.373746,
+          "predicted_revenue": 563.470335
+        },
+        {
+          "segment": "Promising",
+          "customers": 138,
+          "share_active_in_holdout": 0.405797,
+          "actual_purchases": 0.601449,
+          "predicted_purchases": 0.646381,
+          "actual_revenue": 204.056087,
+          "predicted_revenue": 244.26048
+        },
+        {
+          "segment": "New customers",
+          "customers": 79,
+          "share_active_in_holdout": 0.481013,
+          "actual_purchases": 0.924051,
+          "predicted_purchases": 0.873887,
+          "actual_revenue": 298.206329,
+          "predicted_revenue": 330.232724
+        },
+        {
+          "segment": "Potential loyalists",
+          "customers": 211,
+          "share_active_in_holdout": 0.649289,
+          "actual_purchases": 1.251185,
+          "predicted_purchases": 0.908348,
+          "actual_revenue": 435.91564,
+          "predicted_revenue": 318.991401
+        },
+        {
+          "segment": "Champions",
+          "customers": 410,
+          "share_active_in_holdout": 0.85122,
+          "actual_purchases": 3.431707,
+          "predicted_purchases": 2.622936,
+          "actual_revenue": 2510.548976,
+          "predicted_revenue": 1296.909089
+        }
+      ],
+      "tracking_summary": {
+        "calibration_actual": 6624.0,
+        "calibration_expected": 6028.188387,
+        "holdout_actual": 3973.0,
+        "holdout_expected": 2985.157676,
+        "holdout_peak_week_actual": 391.0,
+        "holdout_expected_per_week": 229.627514
+      }
+    },
+    "summer": {
+      "split": {
+        "name": "summer",
+        "calibration_end": "2011-06-11",
+        "holdout_end": "2011-09-10",
+        "note": "sensitivity: same 13-week holdout length, but outside the Q4 gift season"
+      },
+      "calibration_weeks": 27.428571,
+      "holdout_weeks": 13.0,
+      "n_customers": 2541,
+      "n_repeat_customers": 1271,
+      "share_active_in_holdout": 0.478158,
+      "bgnbd": {
+        "params": {
+          "r": {
+            "estimate": 0.730699,
+            "se": 0.037772,
+            "ci95_low": 0.660294,
+            "ci95_high": 0.80861
+          },
+          "alpha": {
+            "estimate": 8.82147,
+            "se": 0.509716,
+            "ci95_low": 7.876939,
+            "ci95_high": 9.879261
+          },
+          "a": {
+            "estimate": 1e-05,
+            "se": 0.000107,
+            "ci95_low": 0.0,
+            "ci95_high": 12486.617661
+          },
+          "b": {
+            "estimate": 3542.295454,
+            "se": 43839.140809,
+            "ci95_low": 0.0,
+            "ci95_high": 121249851738623.45
+          }
+        },
+        "loglik": -11999.042943,
+        "converged": true,
+        "n_customers": 2541,
+        "mean_dropout_probability": 0.0,
+        "no_dropout_model": {
+          "params": {
+            "r": {
+              "estimate": 0.730699,
+              "se": 0.037772,
+              "ci95_low": 0.660294,
+              "ci95_high": 0.80861
+            },
+            "alpha": {
+              "estimate": 8.821477,
+              "se": 0.509716,
+              "ci95_low": 7.876945,
+              "ci95_high": 9.879268
+            }
+          },
+          "loglik": -11999.04294,
+          "loglik_gain_from_dropout": -3e-06
+        }
+      },
+      "gamma_gamma": {
+        "params": {
+          "p": {
+            "estimate": 3.329043,
+            "se": 0.317061,
+            "ci95_low": 2.762168,
+            "ci95_high": 4.012256
+          },
+          "q": {
+            "estimate": 3.397512,
+            "se": 0.203688,
+            "ci95_low": 3.020854,
+            "ci95_high": 3.821134
+          },
+          "gamma": {
+            "estimate": 277.874044,
+            "se": 41.108356,
+            "ci95_low": 207.932432,
+            "ci95_high": 371.341706
+          }
+        },
+        "loglik": -8594.904285,
+        "converged": true,
+        "n_repeat_customers": 1271,
+        "population_mean_spend": 385.839396,
+        "observed_mean_spend": 399.234092
+      },
+      "frequency_spend_correlation": {
+        "pearson": 0.051003,
+        "spearman": 0.127339,
+        "n": 1271
+      },
+      "holdout_transactions": {
+        "bgnbd": {
+          "mae": 0.806068,
+          "rmse": 1.136259,
+          "pearson": 0.792296,
+          "spearman": 0.48753,
+          "total_actual": 2566.0,
+          "total_predicted": 2736.182864,
+          "total_error_pct": 6.632224
+        },
+        "historical_rate": {
+          "mae": 0.754786,
+          "rmse": 1.230434,
+          "pearson": 0.763508,
+          "spearman": 0.511288,
+          "total_actual": 2566.0,
+          "total_predicted": 2482.909073,
+          "total_error_pct": -3.23815
+        },
+        "rfm_cell_mean": {
+          "mae": 0.968926,
+          "rmse": 1.53018,
+          "pearson": 0.573805,
+          "spearman": 0.496248,
+          "total_actual": 2566.0,
+          "total_predicted": 3375.989721,
+          "total_error_pct": 31.56624
+        }
+      },
+      "holdout_revenue": {
+        "bgnbd_gg": {
+          "mae": 378.99457,
+          "rmse": 1079.024084,
+          "pearson": 0.82673,
+          "spearman": 0.483725,
+          "total_actual": 1204362.68,
+          "total_predicted": 1139568.06895,
+          "total_error_pct": -5.379992
+        },
+        "historical_rate": {
+          "mae": 336.531507,
+          "rmse": 976.8047,
+          "pearson": 0.829254,
+          "spearman": 0.519728,
+          "total_actual": 1204362.68,
+          "total_predicted": 1093293.237977,
+          "total_error_pct": -9.222259
+        },
+        "rfm_cell_mean": {
+          "mae": 581.004421,
+          "rmse": 1629.012122,
+          "pearson": 0.380573,
+          "spearman": 0.498949,
+          "total_actual": 1204362.68,
+          "total_predicted": 1605041.612179,
+          "total_error_pct": 33.268959
+        }
+      },
+      "holdout_spend": {
+        "n_customers": 844,
+        "gamma_gamma": {
+          "mae": 156.75473,
+          "rmse": 346.209236,
+          "pearson": 0.780824,
+          "spearman": 0.721577,
+          "total_actual": 367267.638236,
+          "total_predicted": 350930.398843,
+          "total_error_pct": -4.44832
+        },
+        "own_past_mean": {
+          "mae": 161.387878,
+          "rmse": 386.177972,
+          "pearson": 0.743658,
+          "spearman": 0.729907,
+          "total_actual": 367267.638236,
+          "total_predicted": 353316.817218,
+          "total_error_pct": -3.798544
+        }
+      },
+      "top_decile_revenue_capture": {
+        "bgnbd_gg_clv": 0.565016,
+        "rfm_score": 0.468104,
+        "past_spend": 0.565468,
+        "oracle": 0.664237
+      },
+      "top_quintile_revenue_capture": {
+        "bgnbd_gg_clv": 0.691378,
+        "rfm_score": 0.673852,
+        "past_spend": 0.688682,
+        "oracle": 0.831484
+      },
+      "frequency_buckets": [
+        {
+          "frequency": "0",
+          "n": 1270,
+          "actual": 0.406299,
+          "bgnbd": 0.501142,
+          "historical_rate": 0.0
+        },
+        {
+          "frequency": "1",
+          "n": 535,
+          "actual": 0.734579,
+          "bgnbd": 0.916475,
+          "historical_rate": 0.937351
+        },
+        {
+          "frequency": "2",
+          "n": 271,
+          "actual": 1.195572,
+          "bgnbd": 1.3167,
+          "historical_rate": 1.585631
+        },
+        {
+          "frequency": "3",
+          "n": 150,
+          "actual": 1.493333,
+          "bgnbd": 1.599098,
+          "historical_rate": 1.899256
+        },
+        {
+          "frequency": "4",
+          "n": 93,
+          "actual": 2.032258,
+          "bgnbd": 1.958808,
+          "historical_rate": 2.367625
+        },
+        {
+          "frequency": "5",
+          "n": 61,
+          "actual": 2.081967,
+          "bgnbd": 2.304441,
+          "historical_rate": 2.824732
+        },
+        {
+          "frequency": "6",
+          "n": 35,
+          "actual": 2.714286,
+          "bgnbd": 2.516826,
+          "historical_rate": 3.009642
+        },
+        {
+          "frequency": "7+",
+          "n": 126,
+          "actual": 5.539683,
+          "bgnbd": 4.776977,
+          "historical_rate": 6.10315
+        }
+      ],
+      "p_alive": {
+        "mean": 1.0,
+        "min": 1.0,
+        "p01_repeat_buyers": 1.0,
+        "n_below_0_9": 0,
+        "n_below_0_5": 0
+      },
+      "rfm_segments": [
+        {
+          "segment": "Hibernating",
+          "customers": 794,
+          "share_active_in_holdout": 0.265743,
+          "actual_purchases": 0.356423,
+          "predicted_purchases": 0.36522,
+          "actual_revenue": 143.516184,
+          "predicted_revenue": 140.916205
+        },
+        {
+          "segment": "At risk",
+          "customers": 203,
+          "share_active_in_holdout": 0.497537,
+          "actual_purchases": 0.689655,
+          "predicted_purchases": 0.802915,
+          "actual_revenue": 247.938916,
+          "predicted_revenue": 290.720711
+        },
+        {
+          "segment": "Can't lose them",
+          "customers": 29,
+          "share_active_in_holdout": 0.413793,
+          "actual_purchases": 0.931034,
+          "predicted_purchases": 1.704612,
+          "actual_revenue": 240.836897,
+          "predicted_revenue": 567.420969
+        },
+        {
+          "segment": "About to sleep",
+          "customers": 237,
+          "share_active_in_holdout": 0.367089,
+          "actual_purchases": 0.527426,
+          "predicted_purchases": 0.593959,
+          "actual_revenue": 165.643418,
+          "predicted_revenue": 229.172787
+        },
+        {
+          "segment": "Need attention",
+          "customers": 156,
+          "share_active_in_holdout": 0.570513,
+          "actual_purchases": 0.788462,
+          "predicted_purchases": 0.903557,
+          "actual_revenue": 266.620449,
+          "predicted_revenue": 381.046506
+        },
+        {
+          "segment": "Loyal customers",
+          "customers": 375,
+          "share_active_in_holdout": 0.794667,
+          "actual_purchases": 1.805333,
+          "predicted_purchases": 1.807794,
+          "actual_revenue": 944.683147,
+          "predicted_revenue": 765.810896
+        },
+        {
+          "segment": "Promising",
+          "customers": 135,
+          "share_active_in_holdout": 0.288889,
+          "actual_purchases": 0.407407,
+          "predicted_purchases": 0.771086,
+          "actual_revenue": 137.917185,
+          "predicted_revenue": 297.515359
+        },
+        {
+          "segment": "New customers",
+          "customers": 104,
+          "share_active_in_holdout": 0.326923,
+          "actual_purchases": 0.509615,
+          "predicted_purchases": 0.976932,
+          "actual_revenue": 114.871827,
+          "predicted_revenue": 376.939034
+        },
+        {
+          "segment": "Potential loyalists",
+          "customers": 223,
+          "share_active_in_holdout": 0.506726,
+          "actual_purchases": 0.784753,
+          "predicted_purchases": 1.065256,
+          "actual_revenue": 339.987892,
+          "predicted_revenue": 397.767193
+        },
+        {
+          "segment": "Champions",
+          "customers": 285,
+          "share_active_in_holdout": 0.810526,
+          "actual_purchases": 3.185965,
+          "predicted_purchases": 2.915359,
+          "actual_revenue": 1724.932316,
+          "predicted_revenue": 1344.577128
+        }
+      ]
+    },
+    "main_all_countries": {
+      "split": {
+        "name": "main",
+        "calibration_end": "2011-09-10",
+        "holdout_end": "2011-12-10",
+        "note": "first ~9.3 months calibrate; the last 13 weeks (Sep 10 - Dec 9, 2011) are held out"
+      },
+      "calibration_weeks": 40.428571,
+      "holdout_weeks": 13.0,
+      "n_customers": 3363,
+      "n_repeat_customers": 1938,
+      "share_active_in_holdout": 0.569432,
+      "bgnbd": {
+        "params": {
+          "r": {
+            "estimate": 0.71704,
+            "se": 0.028041,
+            "ci95_low": 0.664134,
+            "ci95_high": 0.774161
+          },
+          "alpha": {
+            "estimate": 9.45227,
+            "se": 0.42513,
+            "ci95_low": 8.654702,
+            "ci95_high": 10.323338
+          },
+          "a": {
+            "estimate": 0.0,
+            "se": 1e-06,
+            "ci95_low": 0.0,
+            "ci95_high": 1.7e-05
+          },
+          "b": {
+            "estimate": 76968.358787,
+            "se": 125057.240576,
+            "ci95_low": 3186.32771,
+            "ci95_high": 1859233.824427
+          }
+        },
+        "loglik": -22695.441605,
+        "converged": true,
+        "n_customers": 3363,
+        "mean_dropout_probability": 0.0,
+        "no_dropout_model": {
+          "params": {
+            "r": {
+              "estimate": 0.71704,
+              "se": 0.028041,
+              "ci95_low": 0.664134,
+              "ci95_high": 0.774161
+            },
+            "alpha": {
+              "estimate": 9.452262,
+              "se": 0.425129,
+              "ci95_low": 8.654694,
+              "ci95_high": 10.323329
+            }
+          },
+          "loglik": -22695.441605,
+          "loglik_gain_from_dropout": 0.0
+        }
+      },
+      "gamma_gamma": {
+        "params": {
+          "p": {
+            "estimate": 2.424161,
+            "se": 0.161243,
+            "ci95_low": 2.127863,
+            "ci95_high": 2.761718
+          },
+          "q": {
+            "estimate": 3.316027,
+            "se": 0.158718,
+            "ci95_low": 3.01909,
+            "ci95_high": 3.642168
+          },
+          "gamma": {
+            "estimate": 382.097172,
+            "se": 41.139981,
+            "ci95_low": 309.403977,
+            "ci95_high": 471.869334
+          }
+        },
+        "loglik": -13189.764927,
+        "converged": true,
+        "n_repeat_customers": 1938,
+        "population_mean_spend": 399.937127,
+        "observed_mean_spend": 408.340929
+      },
+      "frequency_spend_correlation": {
+        "pearson": 0.101139,
+        "spearman": 0.178926,
+        "n": 1938
+      },
+      "holdout_transactions": {
+        "bgnbd": {
+          "mae": 0.932541,
+          "rmse": 1.512967,
+          "pearson": 0.795087,
+          "spearman": 0.497064,
+          "total_actual": 4441.0,
+          "total_predicted": 3316.483203,
+          "total_error_pct": -25.321252
+        },
+        "historical_rate": {
+          "mae": 0.909646,
+          "rmse": 1.559023,
+          "pearson": 0.741736,
+          "spearman": 0.499272,
+          "total_actual": 4441.0,
+          "total_predicted": 3138.806247,
+          "total_error_pct": -29.322084
+        },
+        "rfm_cell_mean": {
+          "mae": 1.02927,
+          "rmse": 1.931098,
+          "pearson": 0.524319,
+          "spearman": 0.49598,
+          "total_actual": 4441.0,
+          "total_predicted": 3637.824791,
+          "total_error_pct": -18.085458
+        }
+      },
+      "holdout_revenue": {
+        "bgnbd_gg": {
+          "mae": 563.404339,
+          "rmse": 2875.195813,
+          "pearson": 0.822261,
+          "spearman": 0.511806,
+          "total_actual": 2575969.8,
+          "total_predicted": 1527616.331851,
+          "total_error_pct": -40.697429
+        },
+        "historical_rate": {
+          "mae": 539.720194,
+          "rmse": 2644.416094,
+          "pearson": 0.816467,
+          "spearman": 0.517771,
+          "total_actual": 2575969.8,
+          "total_predicted": 1529058.076084,
+          "total_error_pct": -40.64146
+        },
+        "rfm_cell_mean": {
+          "mae": 733.408395,
+          "rmse": 3794.288237,
+          "pearson": 0.277948,
+          "spearman": 0.51755,
+          "total_actual": 2575969.8,
+          "total_predicted": 1997275.511131,
+          "total_error_pct": -22.465104
+        }
+      },
+      "holdout_spend": {
+        "n_customers": 1376,
+        "gamma_gamma": {
+          "mae": 196.229062,
+          "rmse": 419.113178,
+          "pearson": 0.805896,
+          "spearman": 0.693087,
+          "total_actual": 693399.247883,
+          "total_predicted": 596150.736879,
+          "total_error_pct": -14.024894
+        },
+        "own_past_mean": {
+          "mae": 203.394945,
+          "rmse": 434.054826,
+          "pearson": 0.782392,
+          "spearman": 0.701715,
+          "total_actual": 693399.247883,
+          "total_predicted": 594742.656224,
+          "total_error_pct": -14.227963
+        }
+      },
+      "top_decile_revenue_capture": {
+        "bgnbd_gg_clv": 0.556482,
+        "rfm_score": 0.488552,
+        "past_spend": 0.559713,
+        "oracle": 0.664125
+      },
+      "top_quintile_revenue_capture": {
+        "bgnbd_gg_clv": 0.690913,
+        "rfm_score": 0.648423,
+        "past_spend": 0.673774,
+        "oracle": 0.811307
+      },
+      "frequency_buckets": [
+        {
+          "frequency": "0",
+          "n": 1425,
+          "actual": 0.580351,
+          "bgnbd": 0.379174,
+          "historical_rate": 0.0
+        },
+        {
+          "frequency": "1",
+          "n": 681,
+          "actual": 0.913363,
+          "bgnbd": 0.709816,
+          "historical_rate": 0.742399
+        },
+        {
+          "frequency": "2",
+          "n": 421,
+          "actual": 1.194774,
+          "bgnbd": 0.984103,
+          "historical_rate": 1.069232
+        },
+        {
+          "frequency": "3",
+          "n": 237,
+          "actual": 1.540084,
+          "bgnbd": 1.225103,
+          "historical_rate": 1.34382
+        },
+        {
+          "frequency": "4",
+          "n": 144,
+          "actual": 1.888889,
+          "bgnbd": 1.492484,
+          "historical_rate": 1.677904
+        },
+        {
+          "frequency": "5",
+          "n": 101,
+          "actual": 1.990099,
+          "bgnbd": 1.723268,
+          "historical_rate": 1.9642
+        },
+        {
+          "frequency": "6",
+          "n": 82,
+          "actual": 2.756098,
+          "bgnbd": 2.021093,
+          "historical_rate": 2.340263
+        },
+        {
+          "frequency": "7+",
+          "n": 272,
+          "actual": 5.238971,
+          "bgnbd": 3.799342,
+          "historical_rate": 4.531973
+        }
+      ],
+      "p_alive": {
+        "mean": 1.0,
+        "min": 1.0,
+        "p01_repeat_buyers": 1.0,
+        "n_below_0_9": 0,
+        "n_below_0_5": 0
+      },
+      "rfm_segments": [
+        {
+          "segment": "Hibernating",
+          "customers": 947,
+          "share_active_in_holdout": 0.342133,
+          "actual_purchases": 0.487856,
+          "predicted_purchases": 0.265843,
+          "actual_revenue": 191.073844,
+          "predicted_revenue": 106.320634
+        },
+        {
+          "segment": "At risk",
+          "customers": 379,
+          "share_active_in_holdout": 0.525066,
+          "actual_purchases": 0.849604,
+          "predicted_purchases": 0.660641,
+          "actual_revenue": 354.670106,
+          "predicted_revenue": 251.750384
+        },
+        {
+          "segment": "Can't lose them",
+          "customers": 21,
+          "share_active_in_holdout": 0.52381,
+          "actual_purchases": 1.380952,
+          "predicted_purchases": 1.48978,
+          "actual_revenue": 689.438571,
+          "predicted_revenue": 519.043846
+        },
+        {
+          "segment": "About to sleep",
+          "customers": 226,
+          "share_active_in_holdout": 0.451327,
+          "actual_purchases": 0.787611,
+          "predicted_purchases": 0.461909,
+          "actual_revenue": 320.50969,
+          "predicted_revenue": 184.734368
+        },
+        {
+          "segment": "Need attention",
+          "customers": 193,
+          "share_active_in_holdout": 0.518135,
+          "actual_purchases": 0.834197,
+          "predicted_purchases": 0.675805,
+          "actual_revenue": 308.580311,
+          "predicted_revenue": 236.012343
+        },
+        {
+          "segment": "Loyal customers",
+          "customers": 659,
+          "share_active_in_holdout": 0.805766,
+          "actual_purchases": 1.848255,
+          "predicted_purchases": 1.448489,
+          "actual_revenue": 984.383596,
+          "predicted_revenue": 588.646966
+        },
+        {
+          "segment": "Promising",
+          "customers": 161,
+          "share_active_in_holdout": 0.42236,
+          "actual_purchases": 0.645963,
+          "predicted_purchases": 0.65197,
+          "actual_revenue": 229.511429,
+          "predicted_revenue": 260.747089
+        },
+        {
+          "segment": "New customers",
+          "customers": 91,
+          "share_active_in_holdout": 0.494505,
+          "actual_purchases": 0.912088,
+          "predicted_purchases": 0.87045,
+          "actual_revenue": 285.737253,
+          "predicted_revenue": 348.125457
+        },
+        {
+          "segment": "Potential loyalists",
+          "customers": 230,
+          "share_active_in_holdout": 0.626087,
+          "actual_purchases": 1.178261,
+          "predicted_purchases": 0.918362,
+          "actual_revenue": 417.638261,
+          "predicted_revenue": 339.331607
+        },
+        {
+          "segment": "Champions",
+          "customers": 456,
+          "share_active_in_holdout": 0.857456,
+          "actual_purchases": 3.537281,
+          "predicted_purchases": 2.627815,
+          "actual_revenue": 2864.944035,
+          "predicted_revenue": 1521.255939
+        }
+      ]
+    }
+  },
+  "full_data_model": {
+    "as_of": "2011-12-10",
+    "n_customers": 3909,
+    "bgnbd": {
+      "params": {
+        "r": {
+          "estimate": 0.829395,
+          "se": 0.028493,
+          "ci95_low": 0.775388,
+          "ci95_high": 0.887163
+        },
+        "alpha": {
+          "estimate": 10.016396,
+          "se": 0.401956,
+          "ci95_low": 9.258761,
+          "ci95_high": 10.836027
+        },
+        "a": {
+          "estimate": 0.005683,
+          "se": 0.014661,
+          "ci95_low": 3.6e-05,
+          "ci95_high": 0.892372
+        },
+        "b": {
+          "estimate": 8.474629,
+          "se": 24.795704,
+          "ci95_low": 0.027391,
+          "ci95_high": 2621.983074
+        }
+      },
+      "loglik": -33867.559369,
+      "converged": true,
+      "n_customers": 3909,
+      "mean_dropout_probability": 0.00067,
+      "no_dropout_model": {
+        "params": {
+          "r": {
+            "estimate": 0.830935,
+            "se": 0.028456,
+            "ci95_low": 0.776992,
+            "ci95_high": 0.888623
+          },
+          "alpha": {
+            "estimate": 10.055741,
+            "se": 0.398822,
+            "ci95_low": 9.303673,
+            "ci95_high": 10.868603
+          }
+        },
+        "loglik": -33867.769207,
+        "loglik_gain_from_dropout": 0.209838
+      }
+    },
+    "gamma_gamma": {
+      "params": {
+        "p": {
+          "estimate": 2.184602,
+          "se": 0.124146,
+          "ci95_low": 1.954342,
+          "ci95_high": 2.441991
+        },
+        "q": {
+          "estimate": 3.853791,
+          "se": 0.172565,
+          "ci95_low": 3.529986,
+          "ci95_high": 4.207299
+        },
+        "gamma": {
+          "estimate": 502.104623,
+          "se": 48.09326,
+          "ci95_low": 416.162831,
+          "ci95_high": 605.794255
+        }
+      },
+      "loglik": -16908.511281,
+      "converged": true,
+      "n_repeat_customers": 2507,
+      "population_mean_spend": 384.365471,
+      "observed_mean_spend": 383.76386
+    },
+    "frequency_spend_correlation": {
+      "pearson": 0.107925,
+      "spearman": 0.214057,
+      "n": 2507
+    },
+    "clv_12m": {
+      "total": 1730175.557589,
+      "mean": 442.613343,
+      "median": 243.388939,
+      "top_10pct_share": 0.468419,
+      "top_20pct_share": 0.606895,
+      "gini": 0.553463
+    },
+    "p_alive": {
+      "mean": 0.998636,
+      "min": 0.644563,
+      "p01_repeat_buyers": 0.982074,
+      "n_below_0_9": 4,
+      "n_below_0_5": 0
+    },
+    "one_time_buyers": {
+      "customers": 1402,
+      "customer_share": 0.35866,
+      "clv_share": 0.13162,
+      "clv_12m_mean": 162.429078
+    },
+    "segments": [
+      {
+        "segment": "Champions",
+        "customers": 498,
+        "p_alive": 0.999562,
+        "expected_purchases_12m": 11.352611,
+        "expected_spend": 471.368435,
+        "clv_12m_mean": 1457.441934,
+        "clv_12m_total": 725806.083271,
+        "past_spend_mean": 6708.52506,
+        "customer_share": 0.127398,
+        "clv_share": 0.419499
+      },
+      {
+        "segment": "Can't lose them",
+        "customers": 49,
+        "p_alive": 0.969977,
+        "expected_purchases_12m": 6.887444,
+        "expected_spend": 374.902049,
+        "clv_12m_mean": 610.124414,
+        "clv_12m_total": 29896.096284,
+        "past_spend_mean": 2842.967551,
+        "customer_share": 0.012535,
+        "clv_share": 0.017279
+      },
+      {
+        "segment": "Loyal customers",
+        "customers": 599,
+        "p_alive": 0.999177,
+        "expected_purchases_12m": 6.357171,
+        "expected_spend": 391.923766,
+        "clv_12m_mean": 602.016464,
+        "clv_12m_total": 360607.861925,
+        "past_spend_mean": 2716.296611,
+        "customer_share": 0.153236,
+        "clv_share": 0.208423
+      },
+      {
+        "segment": "Potential loyalists",
+        "customers": 463,
+        "p_alive": 0.999219,
+        "expected_purchases_12m": 4.237749,
+        "expected_spend": 358.13548,
+        "clv_12m_mean": 358.880909,
+        "clv_12m_total": 166161.86101,
+        "past_spend_mean": 847.751145,
+        "customer_share": 0.118445,
+        "clv_share": 0.096038
+      },
+      {
+        "segment": "New customers",
+        "customers": 59,
+        "p_alive": 1.0,
+        "expected_purchases_12m": 3.892109,
+        "expected_spend": 384.365471,
+        "clv_12m_mean": 355.32356,
+        "clv_12m_total": 20964.090058,
+        "past_spend_mean": 548.344746,
+        "customer_share": 0.015093,
+        "clv_share": 0.012117
+      },
+      {
+        "segment": "Need attention",
+        "customers": 105,
+        "p_alive": 0.998957,
+        "expected_purchases_12m": 3.632299,
+        "expected_spend": 377.104865,
+        "clv_12m_mean": 325.182339,
+        "clv_12m_total": 34144.14559,
+        "past_spend_mean": 1153.976286,
+        "customer_share": 0.026861,
+        "clv_share": 0.019734
+      },
+      {
+        "segment": "Promising",
+        "customers": 157,
+        "p_alive": 1.0,
+        "expected_purchases_12m": 3.246329,
+        "expected_spend": 384.365471,
+        "clv_12m_mean": 296.367173,
+        "clv_12m_total": 46529.646209,
+        "past_spend_mean": 310.049172,
+        "customer_share": 0.040164,
+        "clv_share": 0.026893
+      },
+      {
+        "segment": "At risk",
+        "customers": 286,
+        "p_alive": 0.995176,
+        "expected_purchases_12m": 3.411782,
+        "expected_spend": 341.94276,
+        "clv_12m_mean": 276.839063,
+        "clv_12m_total": 79175.971918,
+        "past_spend_mean": 1167.137762,
+        "customer_share": 0.073164,
+        "clv_share": 0.045762
+      },
+      {
+        "segment": "About to sleep",
+        "customers": 452,
+        "p_alive": 0.999576,
+        "expected_purchases_12m": 2.668864,
+        "expected_spend": 381.51377,
+        "clv_12m_mean": 239.326565,
+        "clv_12m_total": 108175.607389,
+        "past_spend_mean": 511.972478,
+        "customer_share": 0.115631,
+        "clv_share": 0.062523
+      },
+      {
+        "segment": "Hibernating",
+        "customers": 1241,
+        "p_alive": 0.999108,
+        "expected_purchases_12m": 1.411381,
+        "expected_spend": 384.041083,
+        "clv_12m_mean": 127.892179,
+        "clv_12m_total": 158714.193935,
+        "past_spend_mean": 436.49884,
+        "customer_share": 0.317472,
+        "clv_share": 0.091733
+      }
+    ],
+    "value_tiers": [
+      {
+        "tier": "top 10%",
+        "customers": 390,
+        "clv_12m_mean": 2078.069809,
+        "clv_share": 0.468419,
+        "expected_purchases_12m": 13.370145,
+        "expected_spend": 691.426198,
+        "p_alive_mean": 0.998381,
+        "one_time_buyer_share": 0.0,
+        "past_spend_share": 0.556638
+      },
+      {
+        "tier": "next 10%",
+        "customers": 391,
+        "clv_12m_mean": 612.757199,
+        "clv_share": 0.138476,
+        "expected_purchases_12m": 7.02214,
+        "expected_spend": 420.643455,
+        "p_alive_mean": 0.998757,
+        "one_time_buyer_share": 0.0,
+        "past_spend_share": 0.135839
+      },
+      {
+        "tier": "next 30%",
+        "customers": 1173,
+        "clv_12m_mean": 338.117219,
+        "clv_share": 0.229232,
+        "expected_purchases_12m": 4.392143,
+        "expected_spend": 352.707324,
+        "p_alive_mean": 0.998842,
+        "one_time_buyer_share": 0.242967,
+        "past_spend_share": 0.181486
+      },
+      {
+        "tier": "bottom 50%",
+        "customers": 1955,
+        "clv_12m_mean": 145.027504,
+        "clv_share": 0.163873,
+        "expected_purchases_12m": 1.894338,
+        "expected_spend": 345.417409,
+        "p_alive_mean": 0.99854,
+        "one_time_buyer_share": 0.571355,
+        "past_spend_share": 0.126037
+      }
+    ],
+    "new_customer": {
+      "mean_first_order_value": 387.881448,
+      "expected_repeat_purchases_12m": 4.310782,
+      "expected_spend_per_purchase": 384.365471,
+      "repeat_clv_12m": 393.54642,
+      "first_order_margin": 96.970362,
+      "total_margin_12m": 490.516782
+    }
+  },
+  "environment": {
+    "python": "3.12.4",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "pandas": "2.2.2"
+  },
+  "runtime_seconds": 3.2
+}

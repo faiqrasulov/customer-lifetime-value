@@ -144,8 +144,10 @@ def fig_p_alive(params: bgnbd.BGNBDParams, scores: pd.DataFrame, path: Path) -> 
     fig, ax = plt.subplots(figsize=(8.4, 4.8))
     mesh = ax.pcolormesh(recency, xs, prob, cmap=cmap, vmin=0, vmax=1, shading="nearest",
                          rasterized=True)
-    cs = ax.contour(recency, xs, prob, levels=[0.2, 0.5, 0.8], colors=[SURFACE], linewidths=1.2)
-    ax.clabel(cs, fmt=lambda v: f"{v:.0%}", fontsize=8.5, colors=SURFACE)
+    contour_colors = [INK2, SURFACE, SURFACE]  # dark ink on the light end of the ramp
+    cs = ax.contour(recency, xs, prob, levels=[0.2, 0.5, 0.8], colors=contour_colors,
+                    linewidths=1.2)
+    ax.clabel(cs, fmt=lambda v: f"{v:.0%}", fontsize=8.5, colors=contour_colors)
     old = scores[scores["T"] >= T - 1.0]
     ax.scatter(old["recency"], np.minimum(old["frequency"], max_x), s=7, color=ORANGE,
                alpha=0.55, lw=0, label=f"Customers first seen Dec 1-7, 2010 (n={len(old):,})")
