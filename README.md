@@ -305,6 +305,11 @@ make run       # downloads 23 MB once, then: metrics.json, segments.csv, figures
 make test      # 50 tests, ~3 s, no network
 ```
 
+`make install` takes the newest compatible packages. To reproduce the committed `reports/`, use
+`make install-locked` instead: it installs the versions pinned in
+[`requirements.lock`](requirements.lock) (Python 3.12). With them `make run` regenerates every value in
+`reports/metrics.json` exactly, apart from the recorded run time (checked on macOS arm64).
+
 ```python
 from clv import bgnbd, gamma_gamma
 from clv.cleaning import clean_transactions
@@ -358,6 +363,10 @@ tests/             50 pytest tests (numerical integration, mpmath, Monte Carlo, 
   spend a little more per order, which Gamma-Gamma ignores.
 - **Assumed economics.** The 25% margin and 10% discount rate are placeholders; there is no cost,
   returns-handling or marketing-cost data. Rankings do not depend on them, money amounts do.
+- **Return netting looks ahead.** Cancellations are netted against earlier purchases over the
+  whole file, before the calibration/holdout split, so cancellations dated in the holdout change a
+  small share of calibration-period revenue. That is information from the future; netting after
+  the split would remove it.
 - **Wholesale accounts dominate error metrics.** The five largest customers spent GBP 63k-260k
   each over the year and drive the revenue RMSE; rank metrics (Spearman, capture) are more robust.
 
